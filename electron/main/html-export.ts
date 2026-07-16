@@ -378,11 +378,23 @@ function relativePath(from: string, to: string): string {
   return portableRelativePath(from, to);
 }
 
+function isWindowsStylePath(...values: string[]): boolean {
+  return process.platform === 'win32' || values.some((value) => /^(?:[a-z]:[\\/]|\\\\)/i.test(value));
+}
+
+function resolvePortable(...values: string[]): string {
+  return isWindowsStylePath(...values) ? path.win32.resolve(...values) : path.resolve(...values);
+}
+
+function dirnamePortable(value: string): string {
+  return isWindowsStylePath(value) ? path.win32.dirname(value) : path.dirname(value);
+}
+
 async function existingRealPath(candidate: string): Promise<string> {
   try {
     return await fs.realpath(candidate);
   } catch {
-    return path.resolve(candidate);
+    return resolvePortable(candidate);
   }
 }
 
@@ -413,9 +425,9 @@ function parseLocalImagePath(source: string, context: HtmlExportPathContext): st
   }
   if (path.win32.isAbsolute(cleanSource) || path.posix.isAbsolute(cleanSource)) {
     if (/^[\\/]/.test(cleanSource) && !/^[a-z]:/i.test(cleanSource) && context.workspaceRoot) {
-      return path.resolve(context.workspaceRoot, cleanSource.replace(/^[\\/]+/, ''));
+      return resolvePortable(context.workspaceRoot, cleanSource.replace(/^[\\/]+/, ''));
     }
-    return path.resolve(cleanSource);
+    return resolvePortable(cleanSource);
   }
   if (/^[a-z][a-z\d+.-]*:/i.test(cleanSource) || cleanSource.startsWith('//')) return undefined;
   cleanSource = cleanSource.split(/[?#]/, 1)[0];
@@ -424,9 +436,10 @@ function parseLocalImagePath(source: string, context: HtmlExportPathContext): st
   } catch {
     /* preserve a literal percent */
   }
-  cleanSource = cleanSource.replace(/\//g, path.sep);
-  const root = context.sourcePath ? path.dirname(context.sourcePath) : context.workspaceRoot;
-  return root ? path.resolve(root, cleanSource) : undefined;
+  const windowsStyle = isWindowsStylePath(context.sourcePath ?? '', context.workspaceRoot ?? '', cleanSource);
+  cleanSource = cleanSource.replace(/\//g, windowsStyle ? '\\' : path.sep);
+  const root = context.sourcePath ? dirnamePortable(context.sourcePath) : context.workspaceRoot;
+  return root ? resolvePortable(root, cleanSource) : undefined;
 }
 
 async function prepareImageSources(
@@ -485,7 +498,7 @@ async function prepareImageSources(
         }
       } else if (localPath) {
         const roots = [
-          context.sourcePath ? path.dirname(context.sourcePath) : undefined,
+          context.sourcePath ? dirnamePortable(context.sourcePath) : undefined,
           context.workspaceRoot,
         ].filter((root): root is string => Boolean(root));
         const [realCandidate, ...realRoots] = await Promise.all([
@@ -527,11 +540,11 @@ async function prepareImageSources(
               safeSource = `data:${mimeType};base64,${(await fs.readFile(realCandidate)).toString('base64')}`;
               embeddedImageCount += 1;
             } else if (context.outputPath) {
-              safeSource = encodeRelativePath(relativePath(path.dirname(context.outputPath), localPath));
+              safeSource = encodeRelativePath(relativePath(dirnamePortable(context.outputPath), localPath));
             } else {
               safeSource = encodeRelativePath(
                 relativePath(
-                  context.sourcePath ? path.dirname(context.sourcePath) : context.workspaceRoot!,
+                  context.sourcePath ? dirnamePortable(context.sourcePath) : context.workspaceRoot!,
                   realCandidate,
                 ),
               );
