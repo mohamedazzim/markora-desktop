@@ -94,7 +94,10 @@ const resolvedLinkSnapshot = (source: string) => {
  * source edit -> Structured Mode -> structured edit -> Source Mode -> save -> reopen.
  */
 const completeEditingJourney = (source: string) => {
-  const sourceEdited = `${source.replace(/\s*$/, '')}\n\nSource edit marker: Ω.\n`;
+  // Fixtures are checked out with a stable LF policy so the semantic journey
+  // does not depend on the host's Git/Node line-ending configuration.
+  const normalizedSource = source.replace(/\r\n/g, '\n');
+  const sourceEdited = `${normalizedSource.replace(/\s*$/, '')}\n\nSource edit marker: Ω.\n`;
   const structured = markdownToStructuredHtml(sourceEdited);
   const structuredEdited = `${structured}\n<p>Structured edit marker with <strong>bold</strong> and <a href="https://example.test/edit">a link</a>.</p>`;
   const sourceMode = structuredHtmlToMarkdown(structuredEdited);

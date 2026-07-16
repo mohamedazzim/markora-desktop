@@ -354,7 +354,12 @@ function sanitizeBody(html: string): string {
 }
 
 function isInside(root: string, candidate: string): boolean {
-  const relative = path.relative(root, candidate);
+  // Windows realpath can return a different drive-letter or component case
+  // than the user-selected source/workspace path. Compare normalized forms so
+  // an authorized file is not misclassified as outside its own root.
+  const normalizedRoot = process.platform === 'win32' ? root.toLocaleLowerCase() : root;
+  const normalizedCandidate = process.platform === 'win32' ? candidate.toLocaleLowerCase() : candidate;
+  const relative = path.relative(normalizedRoot, normalizedCandidate);
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
 }
 
