@@ -1,115 +1,204 @@
 # Markora Desktop
 
-Markora Desktop is an open-source, offline-first Markdown workspace for Windows. It is built with
-Electron, React, and TypeScript and provides two editing projections over one canonical Markdown document:
-Tiptap Structured Mode and CodeMirror Source Mode.
+Open-source visual Markdown editor for Windows.
 
-Version 0.2.2 is a Windows patch release. The current release includes the core editing, image,
-search, customization, export, recovery, accessibility, and packaging paths. A clean Windows
-VM/Sandbox installation has not been performed on the current machine, and Pandoc remains optional.
-See the
-[implementation status](docs/IMPLEMENTATION_STATUS.md) and
-[known limitations](docs/KNOWN_LIMITATIONS.md).
+[![Latest release](https://img.shields.io/github/v/release/mohamedazzim/markora-desktop?display_name=tag&sort=semver)](https://github.com/mohamedazzim/markora-desktop/releases/latest)
+[![Windows CI](https://github.com/mohamedazzim/markora-desktop/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mohamedazzim/markora-desktop/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/mohamedazzim/markora-desktop/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/mohamedazzim/markora-desktop/actions/workflows/codeql.yml)
+[![License](https://img.shields.io/github/license/mohamedazzim/markora-desktop)](LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/mohamedazzim/markora-desktop/total?label=downloads)](https://github.com/mohamedazzim/markora-desktop/releases)
+[![Stars](https://img.shields.io/github/stars/mohamedazzim/markora-desktop?style=flat)](https://github.com/mohamedazzim/markora-desktop/stargazers)
+[![Windows 10+](https://img.shields.io/badge/platform-Windows%2010%2B-0078D4)](https://github.com/mohamedazzim/markora-desktop#system-requirements)
 
-Repository: https://github.com/mohamedazzim/markora-desktop  
-License: MIT
+Markora gives Markdown writers a document-first Windows workspace with a visual Structured Mode and a
+faithful Source Mode. Both views are projections of one canonical Markdown document, so files remain
+portable plain text and work well with Git, editors, and automation.
 
-## Features
+![Markora Desktop Structured Mode with Mermaid](media/desktop-mermaid.png)
 
-- Structured and source editing backed by one authoritative Markdown state
-- GFM tables and task lists, front matter, reference links, footnotes, fenced code, KaTeX math,
-  and Mermaid diagrams rendered with strict security
-- Image paste, drag and drop, file selection, URLs, configurable asset destinations, and image
-  editing actions
-- Current-document and cancellable background workspace search and replace
-- Central registry/palette for baseline application commands and configurable single- or multi-key
-  shortcuts
-- Focus, Typewriter, Zen, full-screen, navigation, word-wrap, and scroll-past-end controls
-- Nine built-in themes, independent interface/document Theme Gallery selections, typography and element
-  styling, validated custom package import/export, and scoped custom CSS
-- Configurable rendered HTML and Chromium PDF export with previews
-- Optional local Pandoc import/export and Chromium spell checking
-- Atomic checked writes, backups, recovery snapshots, external-change detection, and conflict
-  handling foundations
-- Session restoration plus validated one/multiple-file command-line opening and single-instance forwarding
-- NSIS, portable, and unpacked x64 Windows packaging targets
+## Download Markora Desktop 0.2.2
 
-## Requirements
+The current public release is **0.2.2**. The installer is recommended for most users; the portable build
+does not require installation.
 
-- Windows 10 or Windows 11, x64
-- Node.js 22 through 24
-- npm 10 or newer
-- PowerShell 5.1 or newer for the diagnostic and Windows helper scripts
-- Pandoc only when optional Pandoc import/export is needed
+| Package           | Recommended for              | Download                                                                                                                           |
+| ----------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Windows Installer | Normal installation          | [Download installer](https://github.com/mohamedazzim/markora-desktop/releases/download/v0.2.2/Markora-0.2.2-Setup-x64.exe)         |
+| Portable Edition  | Running without installation | [Download portable build](https://github.com/mohamedazzim/markora-desktop/releases/download/v0.2.2/Markora-0.2.2-Portable-x64.exe) |
+| Checksums         | Verifying downloaded files   | [Download SHA-256 checksums](https://github.com/mohamedazzim/markora-desktop/releases/download/v0.2.2/SHA256SUMS-0.2.2.txt)        |
+| Release manifest  | Inspecting build metadata    | [Download manifest](https://github.com/mohamedazzim/markora-desktop/releases/download/v0.2.2/release-manifest-0.2.2.json)          |
 
-## Development
+- [Release notes and assets for v0.2.2](https://github.com/mohamedazzim/markora-desktop/releases/tag/v0.2.2)
+- [Latest release](https://github.com/mohamedazzim/markora-desktop/releases/latest)
 
-Use the lockfile and allow the Electron postinstall check to run:
+### Verify a download
+
+Download `SHA256SUMS-0.2.2.txt` beside the installer and compare the reported hash with PowerShell:
 
 ```powershell
-npm ci
-npm run doctor
-npm start
+Get-FileHash `
+  ".\Markora-0.2.2-Setup-x64.exe" `
+  -Algorithm SHA256
 ```
 
-`npm start` and `npm run dev` both launch Vite, the Electron TypeScript watcher, and the Electron
-binary installed in `node_modules`. `npm run dev:clean` first removes generated Electron output.
-It does not point development at a packaged executable.
+The value must match the installer entry in the published checksum file. Release asset names contain the
+version intentionally; maintainers must update every fixed filename in this table, the changelog, and the
+release manifest as part of the [release process](docs/RELEASE_PROCESS.md).
 
-Run the verification suites separately when diagnosing a failure:
+## Feature highlights
+
+- **Structured Mode** - edit rendered Markdown with Tiptap while preserving Markdown semantics.
+- **Source Mode** - edit the original text with CodeMirror when exact syntax or large-file performance matters.
+- **One document state** - switching views, saving, undo/redo, recovery, and conflict handling share one model.
+- **Workspace tools** - tabs, collapsed-on-open workspace tree, outline navigation, and cancellable search.
+- **Writing modes** - Focus, Typewriter, Zen, full-screen, configurable width, word wrap, and navigation commands.
+- **Export** - styled/unstyled HTML, standalone HTML, and Chromium PDF; optional Pandoc formats when installed.
+- **Windows packaging** - NSIS installer, portable build, and unpacked x64 build.
+
+## Structured Mode
+
+Structured Mode supports headings, paragraphs, emphasis, inline code, links, images, lists, task lists,
+blockquotes, horizontal rules, code blocks, tables, math, Mermaid diagrams, alerts, and safe HTML. Context
+controls appear only when relevant, keeping the writing surface quiet.
+
+## Source Mode
+
+Source Mode exposes the Markdown source in CodeMirror. It is the right choice for large documents,
+unsupported syntax, precise whitespace edits, and reviewing a pending serialization change.
+
+## Markdown support
+
+The parser/serializer supports CommonMark and GFM features including front matter, tables, escaped pipes,
+task lists, reference links, footnotes, fenced code, Unicode, CRLF/LF, and empty documents. Supported
+constructs are normalized only when a visual edit requires serialization; see
+[Markdown support](docs/MARKDOWN_SUPPORT.md) and [normalization rules](docs/MARKDOWN_NORMALIZATION.md).
+
+## Math and Mermaid
+
+KaTeX renders inline and display math locally. Mermaid fences render in strict security mode with no remote
+execution. Diagram source remains available in Source Mode and can be edited through the diagram control.
+
+## Workspace and file management
+
+Open a folder to browse Markdown and other files, create tabs, reveal files, follow internal document links,
+and search the workspace. Unsupported file types remain visible and produce a clear unsupported-format message
+when selected; they are never silently discarded.
+
+## Themes
+
+Choose an application theme independently from a document theme. Built-in themes include Classic White,
+Clean, Paper, Academic, Sepia, Graphite, Forest, Midnight, and High Contrast. Follow System is available,
+and custom theme CSS is scoped so document styles cannot recolor dialogs or application controls.
+
+## Export
+
+HTML export supports standalone or fragment output, embedded CSS, local image embedding, syntax highlighting,
+KaTeX, Mermaid, table of contents, internal links, and document metadata. PDF export uses Chromium print
+controls and exposes page size, margins, scale, headers/footers, page numbers, theme, and print CSS options.
+
+## Installation
+
+1. Download the installer above.
+2. Verify its SHA-256 checksum.
+3. Run the installer and choose whether to create Start Menu and desktop shortcuts.
+4. Open a `.md` or `.markdown` file through Markora or Windows **Open with**.
+
+The portable build can be extracted and launched directly. The current Windows release is x64 and is not
+code-signed; Windows SmartScreen may show an unsigned-binary warning.
+
+## System requirements
+
+- Windows 10 or Windows 11, x64
+- 4 GB RAM recommended for ordinary documents
+- Optional Pandoc installation for DOCX, ODT, RTF, EPUB, LaTeX, MediaWiki, and plain-text conversion
+
+## Getting started
+
+Create a document with **File > New**, type in Structured Mode, use **Source** for exact Markdown, and save
+with **Ctrl+S**. Open a folder from the workspace sidebar when you need project navigation and search.
+
+## Keyboard shortcuts
+
+Common commands use familiar shortcuts: `Ctrl+N` new, `Ctrl+O` open, `Ctrl+S` save, `Ctrl+Z` undo,
+`Ctrl+Y` redo, `Ctrl+F` find, and `Ctrl+Shift+P` command palette. See [shortcuts documentation](docs/SHORTCUTS.md)
+for the current registry and customization behavior.
+
+## Privacy
+
+Markora does not collect document content or telemetry by default. Files stay local unless you explicitly
+choose an external URL or export destination. See [PRIVACY.md](PRIVACY.md).
+
+## Security
+
+All filesystem access is validated through preload IPC, external links are checked, HTML is sanitized, and
+Mermaid runs in strict mode. Report vulnerabilities privately using the process in [SECURITY.md](SECURITY.md).
+
+## Build from source
 
 ```powershell
-npm run typecheck
-npm run lint
-npm run test:unit
-npm run test:integration
-npm run test:accessibility
-npm run test:performance
-npm run test:e2e
+git clone https://github.com/mohamedazzim/markora-desktop.git
+cd markora-desktop
+npm ci
+npm run doctor
 npm run build
 ```
 
-`npm run test:e2e` launches the real local Electron executable through Playwright's Electron API.
-The 0.2.2 verification run passed 640 unit, 42 integration, 43 real-Electron E2E, 40 accessibility,
-and 14 performance tests; the E2E run had no skips.
-See [testing](docs/TESTING.md) and the
-[development-environment fix](docs/DEVELOPMENT_ENVIRONMENT_FIX.md).
+## Development setup
 
-## Large documents
+`npm start` and `npm run dev` launch the Vite renderer, Electron TypeScript watcher, and the installed local
+Electron binary. `npm run dev:clean` removes generated Electron output before starting. See
+[development setup](docs/DEVELOPMENT_SETUP.md) and the [environment fix audit](docs/DEVELOPMENT_ENVIRONMENT_FIX.md).
 
-Source Mode remains available for large files. Documents larger than 2 MiB stay in Source Mode to
-avoid materializing both a structured HTML representation and a ProseMirror tree in the renderer.
-This is a deliberate safety policy, not a truncation: the full Markdown text can still be edited and
-saved.
+## Testing
 
-## Packaging
+Run `npm run verify` for typechecking, lint, unit, integration, accessibility, performance, and build checks.
+The 0.2.2 verification record also includes real-Electron E2E coverage. A clean Windows VM/Sandbox pass was
+not performed on this machine; see [testing](docs/TESTING.md).
 
-```powershell
-npm run package:dir
-npm run package
-```
+## Documentation
 
-`npm run package` targets an x64 NSIS installer, a portable executable, and an unpacked application,
-then creates SHA-256 metadata when all expected artifacts and versioned release notes exist. Builds
-are currently unsigned. Packaging output belongs in `release/` and is not evidence of a successful
-clean-machine install or upgrade.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Feature matrix](docs/FEATURE_MATRIX.md)
+- [Implementation status](docs/IMPLEMENTATION_STATUS.md)
+- [Import and export](docs/IMPORT_EXPORT.md)
+- [Themes](docs/THEMES.md)
+- [Windows build](docs/WINDOWS_BUILD.md)
+- [Release process](docs/RELEASE_PROCESS.md)
+- [Known limitations](docs/KNOWN_LIMITATIONS.md)
+- [Open-source documentation audit](docs/OPEN_SOURCE_DOCUMENTATION_AUDIT.md)
 
-## Architecture
+## Roadmap
 
-- `electron/main` owns privileged file, asset, Pandoc, search, spell-check, recovery, and export work.
-- `electron/preload` exposes the narrow typed `window.markora` bridge.
-- `src/renderer/documents` contains the canonical document and large-document policy.
-- `src/renderer/editor` contains the CodeMirror and Tiptap projections.
-- `src/renderer/markdown` contains Markdown parsing, transformation, normalization, and tables.
-- Feature modules under `src/renderer` provide images, search, commands, appearance, recovery, and
-  export dialogs.
-- `src/shared` contains IPC contracts and export schemas shared across process boundaries.
-- `tests` contains unit, integration, accessibility, performance, and real-Electron E2E suites.
+The public roadmap tracks remaining polish such as clean-VM upgrade verification, broader native Windows
+accessibility review, and additional export/import edge cases. Status is recorded in the feature matrix;
+features are not marked complete without verification.
 
-Read the [architecture](docs/ARCHITECTURE.md), [security policy](SECURITY.md),
-[privacy policy](PRIVACY.md), and [feature matrix](docs/FEATURE_MATRIX.md) before changing a
-privileged boundary.
+## Known limitations
+
+The release is unsigned, Pandoc is optional, and a clean Windows VM/Sandbox installation was not performed
+for this documentation pass. Very large documents may be better served by Source Mode. See the complete
+[known limitations](docs/KNOWN_LIMITATIONS.md).
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md), run the verification commands, and keep changes scoped to the
+desktop repository. Do not include user documents, credentials, generated release binaries, or private paths.
+
+## Support
+
+Use the [issue tracker](https://github.com/mohamedazzim/markora-desktop/issues) for reproducible bugs and
+feature requests. Security reports belong in [GitHub Security Advisories](https://github.com/mohamedazzim/markora-desktop/security/advisories/new).
+
+## Related Markora projects
+
+- [Markora for VS Code](https://github.com/mohamedazzim/markora-vscode)
+- [Markora for VS Code on the Marketplace](https://marketplace.visualstudio.com/items?itemName=MohamedAzzimJ.markora-markdown-editor)
 
 ## License
 
-MIT.
+Markora Desktop is released under the [MIT License](LICENSE).
+
+## Third-party licenses
+
+Dependency and attribution details are documented in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) and
+[DEPENDENCY_LICENSE_REPORT.md](DEPENDENCY_LICENSE_REPORT.md).
