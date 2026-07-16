@@ -357,22 +357,29 @@ function isInside(root: string, candidate: string): boolean {
   // Windows realpath can return a different drive-letter or component case
   // than the user-selected source/workspace path. Compare normalized forms so
   // an authorized file is not misclassified as outside its own root.
-  const normalizedRoot = process.platform === 'win32' ? path.win32.normalize(root).toLocaleLowerCase() : root;
-  const normalizedCandidate =
-    process.platform === 'win32' ? path.win32.normalize(candidate).toLocaleLowerCase() : candidate;
-  const relative =
-    process.platform === 'win32'
-      ? path.win32.relative(normalizedRoot, normalizedCandidate)
-      : path.relative(normalizedRoot, normalizedCandidate);
-  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+  const windowsStyle =
+    process.platform === 'win32' || path.win32.isAbsolute(root) || path.win32.isAbsolute(candidate);
+  const normalizedRoot = windowsStyle ? path.win32.normalize(root).toLocaleLowerCase() : root;
+  const normalizedCandidate = windowsStyle ? path.win32.normalize(candidate).toLocaleLowerCase() : candidate;
+  const relative = windowsStyle
+    ? path.win32.relative(normalizedRoot, normalizedCandidate)
+    : path.relative(normalizedRoot, normalizedCandidate);
+  return (
+    relative === '' ||
+    (!relative.startsWith('..') &&
+      !(windowsStyle ? path.win32.isAbsolute(relative) : path.isAbsolute(relative)))
+  );
 }
 
 function relativePath(from: string, to: string): string {
-  if (process.platform === 'win32') {
+  if (process.platform === 'win32' || path.win32.isAbsolute(from) || path.win32.isAbsolute(to)) {
     // realpath may preserve the casing from the filesystem while the output
     // path came from a user-facing dialog. Windows paths are case-insensitive,
     // so normalize both sides before calculating the relative URI.
-    return path.win32.relative(path.win32.normalize(from).toLocaleLowerCase(), path.win32.normalize(to).toLocaleLowerCase());
+    return path.win32.relative(
+      path.win32.normalize(from).toLocaleLowerCase(),
+      path.win32.normalize(to).toLocaleLowerCase(),
+    );
   }
   return path.relative(from, to);
 }
