@@ -353,35 +353,29 @@ function sanitizeBody(html: string): string {
   });
 }
 
+function portableRelativePath(from: string, to: string): string {
+  // Keep path calculations stable when a Windows realpath is compared with a
+  // path supplied by a dialog (and when tests exercise Windows paths from a
+  // non-Windows host). Both path implementations use the same slash form.
+  const windowsStyle =
+    process.platform === 'win32' || /^(?:[a-z]:[\\/]|\\\\)/i.test(from) || /^(?:[a-z]:[\\/]|\\\\)/i.test(to);
+  const normalize = (value: string) => {
+    const slashPath = value.replace(/\\/g, '/');
+    return windowsStyle ? slashPath.toLocaleLowerCase() : slashPath;
+  };
+  return path.posix.relative(normalize(from), normalize(to));
+}
+
 function isInside(root: string, candidate: string): boolean {
   // Windows realpath can return a different drive-letter or component case
   // than the user-selected source/workspace path. Compare normalized forms so
   // an authorized file is not misclassified as outside its own root.
-  const windowsStyle =
-    process.platform === 'win32' || path.win32.isAbsolute(root) || path.win32.isAbsolute(candidate);
-  const normalizedRoot = windowsStyle ? path.win32.normalize(root).toLocaleLowerCase() : root;
-  const normalizedCandidate = windowsStyle ? path.win32.normalize(candidate).toLocaleLowerCase() : candidate;
-  const relative = windowsStyle
-    ? path.win32.relative(normalizedRoot, normalizedCandidate)
-    : path.relative(normalizedRoot, normalizedCandidate);
-  return (
-    relative === '' ||
-    (!relative.startsWith('..') &&
-      !(windowsStyle ? path.win32.isAbsolute(relative) : path.isAbsolute(relative)))
-  );
+  const relative = portableRelativePath(root, candidate);
+  return relative === '' || (!relative.startsWith('..') && !relative.startsWith('/'));
 }
 
 function relativePath(from: string, to: string): string {
-  if (process.platform === 'win32' || path.win32.isAbsolute(from) || path.win32.isAbsolute(to)) {
-    // realpath may preserve the casing from the filesystem while the output
-    // path came from a user-facing dialog. Windows paths are case-insensitive,
-    // so normalize both sides before calculating the relative URI.
-    return path.win32.relative(
-      path.win32.normalize(from).toLocaleLowerCase(),
-      path.win32.normalize(to).toLocaleLowerCase(),
-    );
-  }
-  return path.relative(from, to);
+  return portableRelativePath(from, to);
 }
 
 async function existingRealPath(candidate: string): Promise<string> {
