@@ -1,0 +1,126 @@
+.mode-pane {
+  display: none;
+  height: 100%;
+}
+.mode-pane.active {
+  display: block;
+}
+
+.cm-search-match {
+  background: rgb(250 204 21 / 35%);
+}
+.cm-search-match.active {
+  background: rgb(249 115 22 / 55%);
+  outline: 1px solid currentColor;
+}
+.structured-search-match {
+  background: rgb(250 204 21 / 35%);
+  border-radius: 2px;
+}
+.structured-search-match.active {
+  background: rgb(249 115 22 / 55%);
+  outline: 1px solid currentColor;
+}
+.app > .document-search-panel {
+  top: 100px;
+}
+.markora-form-dialog-body {
+  display: grid;
+  gap: 16px;
+  padding: 20px 24px 24px;
+}
+.markora-form-field {
+  display: grid;
+  gap: 6px;
+  color: var(--dialog-text-primary, #1f2937);
+  font-size: 13px;
+  font-weight: 600;
+}
+.markora-form-field input {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  color: var(--dialog-input-text, #1f2937);
+  background: var(--dialog-input-bg, #fff);
+  border: 1px solid var(--dialog-input-border, #d1d5db);
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 400;
+}
+.markora-form-error {
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--dialog-danger-bg, #b42318);
+  background: color-mix(in srgb, var(--dialog-danger-bg, #b42318) 10%, var(--dialog-bg, #fff));
+  border: 1px solid color-mix(in srgb, var(--dialog-danger-bg, #b42318) 35%, var(--dialog-border, #d1d5db));
+  border-radius: 6px;
+  font-size: 12px;
+}
+.markora-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+.markora-dialog-button {
+  min-height: 36px;
+  padding: 7px 14px;
+  border: 1px solid var(--dialog-input-border, #d1d5db);
+  border-radius: 6px;
+  font-weight: 600;
+}
+.markora-dialog-button-secondary {
+  color: var(--dialog-secondary-text, #1f2937);
+  background: transparent;
+}
+.markora-dialog-button-secondary:hover {
+  background: var(--dialog-secondary-hover, rgb(0 0 0 / 6%));
+}
+.markora-dialog-button-primary {
+  color: var(--dialog-primary-text, #fff);
+  background: var(--dialog-primary-bg, #2563eb);
+  border-color: var(--dialog-primary-bg, #2563eb);
+}
+.markora-dialog-button-primary:hover {
+  background: var(--dialog-primary-hover, #1d4ed8);
+  border-color: var(--dialog-primary-hover, #1d4ed8);
+}
+.markora-dialog-button-danger {
+  margin-right: auto;
+  color: #fff;
+  background: var(--dialog-danger-bg, #b42318);
+  border-color: var(--dialog-danger-bg, #b42318);
+}
+.markora-dialog-button-danger:hover {
+  color: #fff;
+  background: color-mix(in srgb, var(--dialog-danger-bg, #b42318) 86%, #000);
+  border-color: color-mix(in srgb, var(--dialog-danger-bg, #b42318) 86%, #000);
+}
+.markora-dialog-button:active {
+  transform: translateY(1px);
+}
+.markora-dialog-button:disabled {
+  color: var(--ui-text-disabled, #6b7280);
+  background: transparent;
+  border-color: var(--dialog-border, #d1d5db);
+}
+.markora-table-dialog .markora-form-dialog-body {
+  grid-template-columns: 1fr 1fr;
+}
+.markora-table-dialog .markora-dialog-actions,
+.markora-table-dialog .markora-form-error {
+  grid-column: 1 / -1;
+}
+.markora-text-input-dialog .markora-form-field {
+  grid-column: 1 / -1;
+}
+@media (max-width: 480px) {
+  .markora-table-dialog .markora-form-dialog-body {
+    grid-template-columns: 1fr;
+  }
+  .markora-table-dialog .markora-dialog-actions,
+  .markora-table-dialog .markora-form-error {
+    grid-column: auto;
+  }
+}

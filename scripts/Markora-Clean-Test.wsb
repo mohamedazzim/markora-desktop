@@ -1,0 +1,11 @@
+<Configuration>
+  <Networking>Disable</Networking>
+  <ClipboardRedirection>Enable</ClipboardRedirection>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\Markdown_Project\release</HostFolder>
+      <SandboxFolder>C:\MarkoraRelease</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+</Configuration>

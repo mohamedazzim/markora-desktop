@@ -1,0 +1,90 @@
+.accessibility-skip-link,
+.markora-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.accessibility-skip-link:focus {
+  z-index: 2000;
+  top: 8px;
+  left: 8px;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  color: var(--surface, #fff);
+  background: var(--ink, #1c2420);
+  border: 2px solid var(--accent, #166b52);
+  border-radius: 5px;
+}
+
+:where(button, input, select, textarea, summary, a, [tabindex]):focus-visible {
+  outline: 3px solid var(--accent, #166b52);
+  outline-offset: 2px;
+}
+
+:where(button, input, select, textarea):disabled,
+[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+[aria-busy='true'] {
+  cursor: progress;
+}
+
+@media (prefers-contrast: more) {
+  .app {
+    --line: currentcolor;
+  }
+
+  :where(button, input, select, textarea, summary, [role='tab'], [role='treeitem']) {
+    border-color: currentcolor !important;
+  }
+
+  [aria-selected='true'],
+  [aria-pressed='true'],
+  [aria-current='true'] {
+    outline: 2px solid currentcolor;
+    outline-offset: -2px;
+  }
+}
+
+@media (forced-colors: active) {
+  .app,
+  .app * {
+    forced-color-adjust: auto;
+  }
+
+  :where(button, input, select, textarea, summary, [role='dialog'], [role='treeitem']) {
+    border-color: CanvasText !important;
+  }
+
+  [aria-selected='true'],
+  [aria-pressed='true'],
+  [aria-current='true'] {
+    color: HighlightText !important;
+    background: Highlight !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

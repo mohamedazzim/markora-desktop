@@ -1,0 +1,583 @@
+.markora-appearance-root {
+  --bg: var(--markora-bg);
+  --panel: var(--markora-panel);
+  --surface: var(--markora-surface);
+  --ink: var(--markora-text);
+  --muted: var(--markora-muted);
+  --line: var(--markora-border);
+  --accent: var(--markora-accent);
+  --code: var(--markora-code-bg);
+  color: var(--markora-text);
+  background: var(--markora-bg);
+}
+
+.markora-appearance-root :where(.structured-prosemirror, .reading, .markora-editor) {
+  width: min(100%, var(--markora-editor-width));
+  max-width: var(--markora-content-width);
+  padding-inline: var(--markora-editor-padding);
+  color: var(--markora-text);
+  font-family: var(--markora-editor-font);
+  font-size: var(--markora-font-size);
+  line-height: var(--markora-line-height);
+}
+
+.markora-appearance-root :where(.structured-prosemirror, .reading, .markora-editor) p {
+  margin-block: 0 var(--markora-paragraph-spacing);
+}
+
+.markora-appearance-root
+  :where(.structured-prosemirror, .reading, .markora-editor)
+  :is(h1, h2, h3, h4, h5, h6) {
+  margin-block: var(--markora-heading-spacing) calc(var(--markora-heading-spacing) / 2);
+}
+
+.markora-appearance-root :where(code, pre, .cm-content) {
+  font-family: var(--markora-code-font);
+}
+
+.markora-appearance-root :where(pre, .code-block) {
+  background: var(--markora-code-bg);
+  border-radius: var(--markora-code-radius);
+  box-shadow: var(--markora-code-shadow);
+}
+
+.markora-appearance-root ::selection {
+  background: var(--markora-selection);
+}
+
+.markora-appearance-root :where(.structured-prosemirror, .reading, .markora-editor) a {
+  color: var(--markora-link);
+  text-decoration-line: var(--markora-link-decoration);
+  text-underline-offset: 0.14em;
+}
+
+.markora-links-subtle :where(.structured-prosemirror, .reading, .markora-editor) a {
+  color: inherit;
+  border-bottom: 1px dotted var(--markora-link);
+}
+
+.markora-links-accent :where(.structured-prosemirror, .reading, .markora-editor) a {
+  color: var(--markora-accent);
+  font-weight: 600;
+}
+
+.markora-appearance-root :where(.structured-prosemirror, .reading, .markora-editor) table {
+  border-color: var(--markora-border);
+}
+
+.markora-tables-minimal :where(.structured-prosemirror, .reading, .markora-editor) :is(th, td) {
+  border-inline: 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--markora-border);
+}
+
+.markora-tables-striped :where(.structured-prosemirror, .reading, .markora-editor) tbody tr:nth-child(even) {
+  background: var(--markora-table-stripe);
+}
+
+.markora-appearance-root :where(.structured-prosemirror, .reading, .markora-editor) blockquote {
+  border-color: var(--markora-blockquote);
+}
+
+.markora-blockquotes-boxed :where(.structured-prosemirror, .reading, .markora-editor) blockquote {
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--markora-blockquote) 8%, transparent);
+  border: 1px solid var(--markora-blockquote);
+  border-radius: 7px;
+}
+
+.markora-blockquotes-italic :where(.structured-prosemirror, .reading, .markora-editor) blockquote {
+  border: 0;
+  font-style: italic;
+}
+
+.markora-appearance-root .markora-editor {
+  height: 100%;
+  margin-inline: auto;
+}
+
+.markora-source-theme-github-light .cm-editor {
+  color: #24292f !important;
+  background: #ffffff !important;
+}
+
+.markora-source-theme-github-light .cm-gutters {
+  color: #57606a !important;
+  background: #f6f8fa !important;
+}
+
+.markora-source-theme-github-dark .cm-editor {
+  color: #c9d1d9 !important;
+  background: #0d1117 !important;
+}
+
+.markora-source-theme-github-dark .cm-gutters {
+  color: #8b949e !important;
+  background: #161b22 !important;
+}
+
+.markora-source-theme-dracula .cm-editor {
+  color: #f8f8f2 !important;
+  background: #282a36 !important;
+}
+
+.markora-source-theme-dracula .cm-gutters {
+  color: #6272a4 !important;
+  background: #21222c !important;
+}
+
+.markora-code-theme-github :where(pre, .code-block) {
+  color: #24292f;
+  background: #f6f8fa;
+}
+
+.dark.markora-code-theme-github :where(pre, .code-block),
+.markora-code-theme-atom-one-dark :where(pre, .code-block) {
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.markora-code-theme-monokai :where(pre, .code-block) {
+  color: #f8f8f2;
+  background: #272822;
+}
+
+.markora-focus-mode :where(.structured-prosemirror, .reading, .markora-editor) [data-markora-block] {
+  opacity: 0.28;
+  transition: opacity 120ms ease-out;
+}
+
+.markora-focus-mode .cm-line {
+  opacity: 0.28;
+  transition: opacity 120ms ease-out;
+}
+
+.markora-focus-mode .cm-activeLine {
+  opacity: 1;
+}
+
+.markora-focus-mode
+  :where(.structured-prosemirror, .reading, .markora-editor)
+  [data-markora-block][data-markora-active='true'],
+.markora-focus-mode
+  :where(.structured-prosemirror, .reading, .markora-editor)
+  [data-markora-block]:focus-within {
+  opacity: 1;
+}
+
+.markora-typewriter-mode :where(.structured-editor, .source, .reading, .markora-editor) {
+  scroll-padding-block: 45vh;
+}
+
+.markora-typewriter-mode
+  :where([data-markora-active-line], [data-markora-block][data-markora-active='true']) {
+  scroll-margin-block: 45vh;
+}
+
+.markora-scroll-past-end :where(.structured-prosemirror, .reading, .cm-content, .markora-editor) {
+  padding-bottom: max(50vh, 240px);
+}
+
+.markora-word-wrap :where(.cm-content, .markora-editor pre) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.markora-no-wrap :where(.cm-content, .markora-editor pre) {
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.markora-zen-mode.markora-hide-workspaceSidebar [data-markora-region='workspaceSidebar'],
+.markora-zen-mode.markora-hide-outlineSidebar [data-markora-region='outlineSidebar'],
+.markora-zen-mode.markora-hide-toolbar [data-markora-region='toolbar'],
+.markora-zen-mode.markora-hide-tabBar [data-markora-region='tabBar'],
+.markora-zen-mode.markora-hide-statusBar [data-markora-region='statusBar'] {
+  display: none !important;
+}
+
+.appearance-panel-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 50%);
+}
+
+.appearance-panel {
+  width: min(780px, 100%);
+  max-height: min(880px, calc(100vh - 48px));
+  overflow: auto;
+  color: var(--ink, #1c2420);
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 12px;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 38%);
+}
+
+.appearance-panel-header {
+  position: sticky;
+  z-index: 4;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 22px 16px;
+  background: var(--surface, #fff);
+  border-bottom: 1px solid var(--line, #d9ddd9);
+}
+
+.appearance-panel-header h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.appearance-panel-header p {
+  margin: 5px 0 0;
+  color: var(--muted, #6d756f);
+  font-size: 12px;
+}
+
+.appearance-panel-header button {
+  min-width: 34px;
+  min-height: 34px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.appearance-panel-body {
+  display: grid;
+  gap: 12px;
+  padding: 18px 22px 24px;
+}
+
+.appearance-panel details {
+  overflow: hidden;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 8px;
+}
+
+.appearance-panel summary {
+  padding: 11px 13px;
+  background: var(--panel, #eeefed);
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.appearance-panel details > :not(summary) {
+  margin-inline: 13px;
+}
+
+.appearance-panel details > :last-child {
+  margin-bottom: 14px;
+}
+
+.appearance-panel button,
+.appearance-panel input,
+.appearance-panel select,
+.appearance-panel textarea {
+  color: inherit;
+  font: inherit;
+}
+
+.appearance-panel button:focus-visible,
+.appearance-panel input:focus-visible,
+.appearance-panel select:focus-visible,
+.appearance-panel textarea:focus-visible,
+.appearance-panel summary:focus-visible {
+  outline: 2px solid var(--accent, #166b52);
+  outline-offset: 2px;
+}
+
+.appearance-section-grid,
+.appearance-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 13px;
+}
+
+.appearance-switch {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-items: start;
+  padding: 9px;
+  background: var(--panel, #eeefed);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.appearance-switch input {
+  grid-row: 1 / 3;
+  margin-top: 2px;
+  accent-color: var(--accent, #166b52);
+}
+
+.appearance-switch span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.appearance-switch small {
+  color: var(--muted, #6d756f);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.appearance-zen-regions,
+.appearance-theme-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 11px;
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 7px;
+}
+
+.appearance-zen-regions legend,
+.appearance-theme-list legend {
+  padding-inline: 5px;
+  color: var(--muted, #6d756f);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.appearance-zen-regions label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+}
+
+.appearance-zen-regions input {
+  accent-color: var(--accent, #166b52);
+}
+
+.appearance-field-grid label,
+.appearance-custom-css {
+  display: grid;
+  gap: 5px;
+  color: var(--muted, #6d756f);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.appearance-field-grid input,
+.appearance-field-grid select,
+.appearance-custom-css textarea {
+  width: 100%;
+  min-height: 35px;
+  padding: 7px 8px;
+  color: var(--ink, #1c2420);
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 5px;
+  font-weight: 400;
+}
+
+.appearance-span-two {
+  grid-column: 1 / -1;
+}
+
+.appearance-theme-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.appearance-theme-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 7px;
+  min-width: 0;
+  padding: 8px;
+  background: var(--preview-bg);
+  border: 2px solid var(--preview-border);
+  border-radius: 7px;
+  color: var(--preview-text);
+  cursor: pointer;
+}
+
+.appearance-theme-card:has(input:checked) {
+  border-color: var(--preview-accent);
+  box-shadow: 0 0 0 1px var(--preview-accent);
+}
+
+.appearance-theme-card input {
+  margin-top: 2px;
+  accent-color: var(--preview-accent);
+}
+
+.appearance-theme-card strong,
+.appearance-theme-card small {
+  min-width: 0;
+}
+
+.appearance-theme-card strong {
+  font-size: 11px;
+}
+
+.appearance-theme-active {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 5px;
+  color: var(--preview-text);
+  background: var(--preview-surface);
+  border: 1px solid var(--preview-accent);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+.appearance-theme-card small {
+  grid-column: 2;
+  color: var(--preview-muted);
+  font-size: 9px;
+  line-height: 1.3;
+}
+
+.appearance-theme-swatch {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 4px;
+  height: 32px;
+  padding: 6px;
+  background: var(--preview-surface);
+  border: 1px solid var(--preview-border);
+  border-radius: 4px;
+}
+
+.appearance-theme-swatch i,
+.appearance-theme-swatch b,
+.appearance-theme-swatch em {
+  display: block;
+  border-radius: 2px;
+}
+
+.appearance-theme-swatch i {
+  width: 22%;
+  background: var(--preview-accent);
+}
+
+.appearance-theme-swatch b {
+  width: 50%;
+  background: var(--preview-text);
+  opacity: 0.8;
+}
+
+.appearance-theme-swatch em {
+  flex: 1;
+  background: var(--preview-muted);
+  opacity: 0.55;
+}
+
+.appearance-custom-css {
+  margin-top: 13px;
+}
+
+.appearance-custom-css textarea {
+  min-height: 180px;
+  resize: vertical;
+  font-family: Consolas, 'Cascadia Code', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.appearance-custom-css small {
+  font-weight: 400;
+}
+
+.appearance-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.appearance-button-row button {
+  min-height: 34px;
+  padding: 6px 10px;
+  background: var(--panel, #eeefed);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 5px;
+}
+
+.appearance-button-row button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.appearance-message {
+  padding: 9px 11px;
+  background: color-mix(in srgb, var(--accent, #166b52) 9%, var(--surface, #fff));
+  border: 1px solid color-mix(in srgb, var(--accent, #166b52) 35%, var(--line, #d9ddd9));
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.appearance-message.error {
+  color: #992f2f;
+  background: color-mix(in srgb, #c33 9%, var(--surface, #fff));
+  border-color: color-mix(in srgb, #c33 35%, var(--line, #d9ddd9));
+}
+
+.appearance-message p {
+  margin: 0;
+}
+
+.appearance-message p + p {
+  margin-top: 4px;
+}
+
+@media (max-width: 650px) {
+  .appearance-panel-backdrop {
+    place-items: stretch;
+    padding: 0;
+  }
+
+  .appearance-panel {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .appearance-section-grid,
+  .appearance-field-grid,
+  .appearance-theme-list {
+    grid-template-columns: 1fr;
+  }
+
+  .appearance-span-two {
+    grid-column: auto;
+  }
+}
+
+@media (forced-colors: active) {
+  .appearance-panel,
+  .appearance-panel details,
+  .appearance-panel button,
+  .appearance-panel input,
+  .appearance-panel select,
+  .appearance-panel textarea,
+  .appearance-theme-card {
+    border-color: CanvasText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markora-focus-mode [data-markora-block] {
+    transition: none;
+  }
+
+  .appearance-panel,
+  .appearance-panel-backdrop {
+    scroll-behavior: auto;
+  }
+}

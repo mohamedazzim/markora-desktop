@@ -1,0 +1,168 @@
+{
+  "name": "markora",
+  "version": "0.2.2",
+  "description": "An open-source, offline-first Markdown workspace for Windows.",
+  "main": "dist-electron/electron/main/index.js",
+  "author": "Markora Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohamedazzim/markora-desktop.git"
+  },
+  "homepage": "https://github.com/mohamedazzim/markora-desktop#readme",
+  "bugs": {
+    "url": "https://github.com/mohamedazzim/markora-desktop/issues"
+  },
+  "scripts": {
+    "postinstall": "node node_modules/electron/install.js",
+    "start": "npm run dev",
+    "dev": "npm run build:electron && node node_modules/concurrently/dist/bin/concurrently.js -k --names renderer,main,electron \"node node_modules/vite/bin/vite.js\" \"node node_modules/typescript/bin/tsc -p tsconfig.electron.json --watch --preserveWatchOutput\" \"node node_modules/wait-on/bin/wait-on tcp:5173 && node node_modules/electron/cli.js .\"",
+    "dev:clean": "npm run clean:dev && npm run dev",
+    "clean:dev": "node node_modules/rimraf/dist/esm/bin.mjs dist-electron",
+    "dev:web": "node node_modules/vite/bin/vite.js",
+    "build:electron": "node node_modules/typescript/bin/tsc -p tsconfig.electron.json",
+    "build": "npm run typecheck && node node_modules/vite/bin/vite.js build && node node_modules/typescript/bin/tsc -p tsconfig.electron.json",
+    "doctor": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/doctor.ps1",
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.electron.json --noEmit",
+    "lint": "node node_modules/eslint/bin/eslint.js . --max-warnings=0",
+    "format": "node node_modules/prettier/bin/prettier.cjs --write .",
+    "format:check": "node node_modules/prettier/bin/prettier.cjs --check .",
+    "test": "node node_modules/vitest/vitest.mjs run",
+    "test:unit": "node node_modules/vitest/vitest.mjs run",
+    "test:integration": "node node_modules/vitest/vitest.mjs run --config vitest.integration.config.ts",
+    "test:performance": "node node_modules/vitest/vitest.mjs run --config vitest.performance.config.ts",
+    "test:accessibility": "node node_modules/vitest/vitest.mjs run --config vitest.accessibility.config.ts",
+    "test:e2e": "npm run build:electron && node node_modules/playwright/cli.js test --config playwright.config.ts",
+    "test:visual": "npm run build:electron && node node_modules/playwright/cli.js test --config playwright.config.ts tests/e2e/link-dialog.e2e.spec.ts --grep=opaque",
+    "test:visual:update": "npm run test:visual",
+    "verify": "npm run typecheck && npm run lint && npm run test:unit && npm run test:integration && npm run test:accessibility && npm run test:performance && npm run build",
+    "package": "npm run build && node node_modules/electron-builder/out/cli/cli.js --win --x64 && npm run release:finalize",
+    "package:dir": "npm run build && node node_modules/electron-builder/out/cli/cli.js --win dir --x64",
+    "release:finalize": "node scripts/finalize-release.mjs",
+    "make": "npm run package",
+    "dist": "npm run package",
+    "clean": "node node_modules/rimraf/dist/esm/bin.mjs dist dist-electron release coverage playwright-report test-results"
+  },
+  "build": {
+    "appId": "com.markora.desktop",
+    "productName": "Markora",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true,
+      "artifactName": "${productName}-${version}-Setup-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Portable-${arch}.${ext}",
+      "requestExecutionLevel": "user"
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          "md",
+          "markdown"
+        ],
+        "name": "Markora.Markdown",
+        "description": "Markdown document",
+        "role": "Editor"
+      }
+    ]
+  },
+  "dependencies": {
+    "@codemirror/lang-markdown": "^6.3.0",
+    "@tiptap/core": "^3.0.0",
+    "@tiptap/extension-highlight": "^3.27.4",
+    "@tiptap/extension-image": "^3.27.4",
+    "@tiptap/extension-link": "^3.27.4",
+    "@tiptap/extension-table": "^3.27.4",
+    "@tiptap/extension-table-cell": "^3.27.4",
+    "@tiptap/extension-table-header": "^3.27.4",
+    "@tiptap/extension-table-row": "^3.27.4",
+    "@tiptap/extension-task-item": "^3.27.4",
+    "@tiptap/extension-task-list": "^3.27.4",
+    "@tiptap/extension-underline": "^3.27.4",
+    "@tiptap/react": "^3.0.0",
+    "@tiptap/starter-kit": "^3.0.0",
+    "@uiw/react-codemirror": "^4.23.10",
+    "dompurify": "^3.2.6",
+    "highlight.js": "^11.11.1",
+    "katex": "^0.16.22",
+    "lucide-react": "^0.468.0",
+    "marked": "^15.0.7",
+    "mermaid": "^11.4.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "remark-stringify": "^11.0.0",
+    "sanitize-html": "^2.17.6",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2",
+    "unified": "^11.0.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.51.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/dompurify": "^3.2.0",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@types/sanitize-html": "^2.16.1",
+    "@types/turndown": "^5.0.6",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "axe-core": "^4.12.1",
+    "concurrently": "^9.1.2",
+    "electron": "^43.1.0",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.15.0",
+    "jsdom": "^26.0.0",
+    "prettier": "^3.5.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5",
+    "wait-on": "^8.0.2"
+  }
+}

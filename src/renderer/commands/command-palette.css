@@ -1,0 +1,171 @@
+.command-palette-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: start center;
+  padding: min(16vh, 9rem) 1rem 1rem;
+  background: rgb(0 0 0 / 46%);
+}
+
+.command-palette {
+  width: min(42rem, 100%);
+  max-height: min(70vh, 42rem);
+  overflow: hidden;
+  color: var(--dialog-text-primary, #18181b);
+  background: var(--dialog-bg, #fff);
+  border: 1px solid var(--dialog-border, #d4d4d8);
+  border-radius: 0.75rem;
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 30%);
+}
+
+.command-palette-title {
+  margin: 0;
+  padding: 0.8rem 1rem 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--dialog-text-primary, #18181b);
+}
+
+.command-palette-input {
+  box-sizing: border-box;
+  width: calc(100% - 1.5rem);
+  margin: 0.5rem 0.75rem 0.75rem;
+  padding: 0.75rem;
+  color: var(--dialog-input-text, #18181b);
+  background: var(--dialog-input-bg, #fafafa);
+  border: 1px solid var(--dialog-input-border, #d4d4d8);
+  border-radius: 0.5rem;
+  font: inherit;
+}
+
+.command-palette-input:focus-visible,
+.command-palette-option:focus-visible {
+  outline: 3px solid var(--dialog-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.command-palette-results {
+  max-height: min(52vh, 32rem);
+  padding: 0 0.5rem 0.5rem;
+  overflow-y: auto;
+}
+
+.command-palette-option {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  color: var(--dialog-text-primary, #18181b) !important;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.command-palette-option[aria-selected='true'] {
+  /* Keep the active row above WCAG AA contrast even when a custom accent is
+     unusually pale. The accent remains available for focus rings and chrome. */
+  color: #fff !important;
+  background: #0b3d91 !important;
+}
+
+.command-palette-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.command-palette-option-text {
+  display: grid;
+  min-width: 0;
+}
+
+.command-palette-option-label {
+  overflow: hidden;
+  font-weight: 560;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.command-palette-option-category {
+  font-size: 0.75rem;
+  /* Keep secondary metadata readable against themed option surfaces. */
+  color: #1f2937 !important;
+  opacity: 1;
+}
+
+.command-palette-option[aria-selected='true'] .command-palette-option-category {
+  color: #fff !important;
+  opacity: 1;
+}
+
+.command-palette-option kbd {
+  flex: none;
+  padding: 0.15rem 0.35rem;
+  font: 0.72rem/1.2 var(--code-font, Consolas, monospace);
+  color: #1f2937 !important;
+  background: #fff !important;
+  border: 1px solid currentcolor;
+  border-radius: 0.25rem;
+}
+
+.command-palette-option[aria-selected='true'] kbd {
+  color: #fff !important;
+  background: #06265c !important;
+}
+
+[data-markora-dialog-mode='dark'] .command-palette-option:not([aria-selected='true']) {
+  color: #f3f4f6 !important;
+}
+
+[data-markora-dialog-mode='dark'] .command-palette-option-category {
+  color: #f3f4f6 !important;
+}
+
+[data-markora-dialog-mode='dark'] .command-palette-option kbd {
+  color: #f3f4f6 !important;
+  background: #1f2937 !important;
+}
+
+.command-palette-empty {
+  margin: 0;
+  padding: 1rem;
+  color: var(--dialog-text-secondary, #52525b);
+  text-align: center;
+}
+
+.command-palette-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .command-palette {
+    animation: command-palette-enter 120ms ease-out;
+  }
+}
+
+@keyframes command-palette-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem) scale(0.99);
+  }
+}
+
+@media (forced-colors: active) {
+  .command-palette,
+  .command-palette-input,
+  .command-palette-option:focus-visible {
+    border: 1px solid CanvasText;
+  }
+}

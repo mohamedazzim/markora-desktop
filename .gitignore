@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-electron/
+release/
+graphify-out/
+.agents/
+coverage/
+playwright-report/
+test-results/

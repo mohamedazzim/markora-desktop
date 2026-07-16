@@ -1,0 +1,410 @@
+.pandoc-dialog-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 50%);
+}
+
+.pandoc-dialog {
+  width: min(720px, 100%);
+  max-height: min(820px, calc(100vh - 48px));
+  overflow: auto;
+  color: var(--ink, #1c2420);
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 12px;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 38%);
+}
+
+.pandoc-dialog-header {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 22px 16px;
+  background: var(--surface, #fff);
+  border-bottom: 1px solid var(--line, #d9ddd9);
+}
+
+.pandoc-dialog-header h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.pandoc-dialog-header p {
+  margin: 5px 0 0;
+  color: var(--muted, #6d756f);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pandoc-dialog-header button {
+  min-width: 34px;
+  min-height: 34px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.pandoc-dialog form {
+  display: grid;
+  gap: 18px;
+  padding: 20px 22px 22px;
+}
+
+.pandoc-dialog button,
+.pandoc-dialog input,
+.pandoc-dialog select,
+.pandoc-dialog textarea {
+  color: inherit;
+  font: inherit;
+}
+
+.pandoc-dialog button:focus-visible,
+.pandoc-dialog input:focus-visible,
+.pandoc-dialog select:focus-visible,
+.pandoc-dialog textarea:focus-visible,
+.pandoc-dialog summary:focus-visible {
+  outline: 2px solid var(--accent, #166b52);
+  outline-offset: 2px;
+}
+
+.pandoc-dialog button:disabled,
+.pandoc-dialog fieldset:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.pandoc-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px;
+  background: var(--panel, #eeefed);
+  border: 1px solid var(--line, #d9ddd9);
+  border-left: 4px solid var(--muted, #6d756f);
+  border-radius: 8px;
+}
+
+.pandoc-status.available {
+  border-left-color: var(--accent, #166b52);
+}
+
+.pandoc-status.invalid,
+.pandoc-status.error {
+  border-left-color: #b43b3b;
+}
+
+.pandoc-status > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.pandoc-status strong {
+  font-size: 13px;
+}
+
+.pandoc-status span {
+  color: var(--muted, #6d756f);
+  font-size: 11px;
+}
+
+.pandoc-status code,
+.pandoc-result code {
+  overflow: hidden;
+  color: var(--muted, #6d756f);
+  font-family: Consolas, 'Cascadia Code', monospace;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pandoc-status button,
+.pandoc-path-row button,
+.pandoc-preview-button,
+.pandoc-progress button,
+.pandoc-dialog-actions button {
+  min-height: 36px;
+  padding: 7px 12px;
+  background: var(--panel, #eeefed);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 6px;
+}
+
+.pandoc-operation {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pandoc-operation legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.pandoc-operation label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  background: var(--panel, #eeefed);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.pandoc-operation label:has(input:checked) {
+  color: var(--accent, #166b52);
+  border-color: var(--accent, #166b52);
+  background: color-mix(in srgb, var(--accent, #166b52) 10%, var(--surface, #fff));
+}
+
+.pandoc-operation input {
+  accent-color: var(--accent, #166b52);
+}
+
+.pandoc-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.pandoc-fields > label,
+.pandoc-path-row label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted, #6d756f);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pandoc-fields label > span {
+  color: var(--muted, #6d756f);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.pandoc-fields input,
+.pandoc-fields select {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 9px;
+  color: var(--ink, #1c2420);
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.pandoc-fields input[readonly] {
+  color: var(--muted, #6d756f);
+  background: var(--panel, #eeefed);
+}
+
+.pandoc-path-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.pandoc-preview-button {
+  justify-self: start;
+}
+
+.pandoc-preview {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  background: var(--panel, #eeefed);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 8px;
+}
+
+.pandoc-preview h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.pandoc-preview ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: #926212;
+  font-size: 11px;
+}
+
+.pandoc-preview textarea {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  padding: 10px;
+  color: var(--ink, #1c2420);
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 6px;
+  font-family: Consolas, 'Cascadia Code', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.pandoc-interface-error,
+.pandoc-diagnostic {
+  margin: 0;
+  padding: 10px 12px;
+  color: #992f2f;
+  background: color-mix(in srgb, #c33 9%, var(--surface, #fff));
+  border: 1px solid color-mix(in srgb, #c33 35%, var(--line, #d9ddd9));
+  border-radius: 7px;
+  font-size: 12px;
+}
+
+.pandoc-diagnostic-message {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.pandoc-diagnostic dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 8px;
+  margin: 0 0 8px;
+}
+
+.pandoc-diagnostic dt {
+  font-weight: 600;
+}
+
+.pandoc-diagnostic dd {
+  margin: 0;
+}
+
+.pandoc-dialog details {
+  margin-top: 7px;
+}
+
+.pandoc-dialog summary {
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pandoc-dialog pre {
+  max-height: 180px;
+  margin: 6px 0 0;
+  overflow: auto;
+  padding: 9px;
+  color: var(--ink, #1c2420);
+  background: var(--code, #f3f5f3);
+  border-radius: 5px;
+  font-family: Consolas, 'Cascadia Code', monospace;
+  font-size: 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.pandoc-progress,
+.pandoc-result {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  background: var(--panel, #eeefed);
+  border: 1px solid var(--line, #d9ddd9);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.pandoc-progress > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pandoc-progress span {
+  color: var(--muted, #6d756f);
+  text-transform: capitalize;
+}
+
+.pandoc-progress progress {
+  width: 100%;
+  accent-color: var(--accent, #166b52);
+}
+
+.pandoc-progress button {
+  justify-self: start;
+}
+
+.pandoc-result.success {
+  border-left: 4px solid var(--accent, #166b52);
+}
+
+.pandoc-result.cancelled {
+  border-left: 4px solid var(--muted, #6d756f);
+}
+
+.pandoc-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  height: auto;
+  padding: 16px 0 0;
+  color: inherit;
+  background: transparent;
+  border-top: 1px solid var(--line, #d9ddd9);
+}
+
+.pandoc-dialog-actions button.primary {
+  color: #fff;
+  background: var(--accent, #166b52);
+  border-color: var(--accent, #166b52);
+}
+
+@media (max-width: 600px) {
+  .pandoc-dialog-backdrop {
+    place-items: stretch;
+    padding: 0;
+  }
+
+  .pandoc-dialog {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .pandoc-status,
+  .pandoc-operation {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (forced-colors: active) {
+  .pandoc-dialog,
+  .pandoc-dialog button,
+  .pandoc-dialog input,
+  .pandoc-dialog select,
+  .pandoc-dialog textarea {
+    border-color: CanvasText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pandoc-dialog,
+  .pandoc-dialog-backdrop {
+    scroll-behavior: auto;
+  }
+}

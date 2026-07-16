@@ -1,0 +1,247 @@
+.pdf-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(2 6 23 / 72%);
+}
+
+.pdf-dialog {
+  width: min(1220px, 96vw);
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text, #e5e7eb);
+  background: var(--panel, #111827);
+  border: 1px solid var(--border, #374151);
+  border-radius: 12px;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+  overflow: hidden;
+}
+
+.pdf-dialog-header,
+.pdf-dialog-footer,
+.pdf-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pdf-dialog-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border, #374151);
+}
+
+.pdf-dialog-header h2,
+.pdf-preview-toolbar h3 {
+  margin: 0;
+}
+
+.pdf-dialog-header p {
+  margin: 4px 0 0;
+  color: var(--muted, #9ca3af);
+}
+
+.pdf-dialog-header > button {
+  min-width: 36px;
+  min-height: 36px;
+  font-size: 24px;
+}
+
+.pdf-dialog-body {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(360px, 0.92fr) minmax(420px, 1.08fr);
+  gap: 16px;
+  padding: 16px;
+  overflow: auto;
+}
+
+.pdf-options {
+  display: grid;
+  gap: 12px;
+}
+
+.pdf-options fieldset {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--border, #374151);
+  border-radius: 8px;
+}
+
+.pdf-options legend {
+  padding: 0 5px;
+  font-weight: 650;
+}
+
+.pdf-options label:not(.pdf-toggle) {
+  display: grid;
+  grid-template-columns: minmax(130px, 1fr) minmax(130px, 1.25fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-options input,
+.pdf-options select,
+.pdf-options textarea,
+.pdf-dialog button {
+  color: inherit;
+  background: var(--surface, #1f2937);
+  border: 1px solid var(--border, #4b5563);
+  border-radius: 6px;
+  padding: 7px 9px;
+}
+
+.pdf-options textarea {
+  min-width: 0;
+  resize: vertical;
+  font-family: var(--code-font, Consolas, monospace);
+}
+
+.pdf-dialog button:not(:disabled) {
+  cursor: pointer;
+}
+
+.pdf-dialog button:disabled,
+.pdf-options fieldset:disabled {
+  opacity: 0.58;
+}
+
+.pdf-field-grid,
+.pdf-inline-fields,
+.pdf-heading-breaks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pdf-inline-fields label {
+  grid-column: 1 / -1;
+}
+
+.pdf-margins {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pdf-field-grid label:not(.pdf-toggle),
+.pdf-margins label:not(.pdf-toggle) {
+  grid-template-columns: 1fr;
+}
+
+.pdf-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-toggle input {
+  margin: 0;
+}
+
+.pdf-help {
+  margin: 0;
+  color: var(--muted, #9ca3af);
+  font-size: 0.85rem;
+}
+
+.pdf-preview {
+  min-height: 500px;
+  align-self: start;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border, #374151);
+  border-radius: 8px;
+  background: #0b1020;
+}
+
+.pdf-preview-toolbar span {
+  color: var(--muted, #9ca3af);
+  font-size: 0.85rem;
+}
+
+.pdf-preview iframe {
+  width: min(100%, 720px);
+  min-height: 520px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #4b5563;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 35%);
+}
+
+.pdf-preview-empty {
+  min-height: 520px;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--muted, #9ca3af);
+  text-align: center;
+  border: 1px dashed var(--border, #4b5563);
+  background: rgb(255 255 255 / 3%);
+}
+
+.pdf-error,
+.pdf-status {
+  padding: 8px 18px;
+}
+
+.pdf-error {
+  color: #fecaca;
+  background: rgb(127 29 29 / 45%);
+  border-top: 1px solid #991b1b;
+}
+
+.pdf-status {
+  min-height: 35px;
+  color: var(--muted, #9ca3af);
+}
+
+.pdf-dialog-footer {
+  justify-content: flex-end;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border, #374151);
+}
+
+.pdf-dialog :focus-visible {
+  outline: 3px solid var(--focus, #60a5fa);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .pdf-dialog-body {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-preview {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdf-dialog,
+  .pdf-dialog * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .pdf-dialog,
+  .pdf-options fieldset,
+  .pdf-preview,
+  .pdf-options input,
+  .pdf-options select,
+  .pdf-options textarea,
+  .pdf-dialog button {
+    border-color: CanvasText;
+  }
+}

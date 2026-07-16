@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Markora application icon</title>
+  <defs>
+    <linearGradient id="background" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#312e81"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#background)"/>
+  <path d="M146 102h164l78 78v230H146z" fill="#fff" fill-opacity=".96"/>
+  <path d="M310 102v78h78" fill="#c7d2fe"/>
+  <path d="M196 302V202l54 62 54-62v100" fill="none" stroke="#312e81" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M250 330v58m-34-32 34 34 34-34" fill="none" stroke="#0f766e" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

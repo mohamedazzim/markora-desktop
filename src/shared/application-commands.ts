@@ -1,0 +1,85 @@
+/**
+ * Stable command identifiers that may cross the isolated main/preload/renderer boundary.
+ *
+ * Keep command labels and handlers in the renderer registry. This shared allowlist contains no
+ * executable behavior and is intentionally the only source accepted by the preload menu event bridge.
+ */
+export const APPLICATION_COMMAND_IDS = [
+  'app.commandPalette',
+  'file.new',
+  'file.open',
+  'file.openFolder',
+  'file.save',
+  'file.saveAs',
+  'file.close',
+  'editor.undo',
+  'editor.redo',
+  'editor.toggleBold',
+  'editor.toggleItalic',
+  'editor.toggleStrike',
+  'editor.toggleUnderline',
+  'editor.toggleHighlight',
+  'editor.editLink',
+  'editor.setParagraph',
+  'editor.setHeading1',
+  'editor.setHeading2',
+  'editor.setHeading3',
+  'editor.setHeading4',
+  'editor.setHeading5',
+  'editor.setHeading6',
+  'editor.toggleBulletList',
+  'editor.toggleOrderedList',
+  'editor.toggleTaskList',
+  'editor.toggleBlockquote',
+  'editor.toggleCodeBlock',
+  'editor.toggleSourceMode',
+  'editor.insertTable',
+  'editor.insertImage',
+  'editor.insertMath',
+  'editor.insertMermaid',
+  'editor.find',
+  'editor.replace',
+  'table.addRowBefore',
+  'table.addRowAfter',
+  'table.addColumnBefore',
+  'table.addColumnAfter',
+  'table.deleteRow',
+  'table.deleteColumn',
+  'table.copyMarkdown',
+  'table.copyTsv',
+  'table.delete',
+  'view.toggleFocusMode',
+  'view.toggleTypewriterMode',
+  'view.toggleZenMode',
+  'view.toggleOutline',
+  'view.toggleFullscreen',
+  'view.toggleScrollPastEnd',
+  'view.toggleWordWrap',
+  'navigation.top',
+  'navigation.bottom',
+  'navigation.selection',
+  'navigation.previousHeading',
+  'navigation.nextHeading',
+  'navigation.previousParagraph',
+  'navigation.nextParagraph',
+  'export.html',
+  'export.pdf',
+  'export.pandoc',
+  'theme.gallery',
+  'theme.white',
+  'theme.clean',
+  'theme.paper',
+  'theme.academic',
+  'theme.sepia',
+  'theme.graphite',
+  'theme.midnight',
+  'theme.highContrast',
+] as const;
+
+export type ApplicationCommandId = (typeof APPLICATION_COMMAND_IDS)[number];
+
+const applicationCommandIds: ReadonlySet<string> = new Set(APPLICATION_COMMAND_IDS);
+
+export function isApplicationCommandId(value: unknown): value is ApplicationCommandId {
+  return typeof value === 'string' && applicationCommandIds.has(value);
+}

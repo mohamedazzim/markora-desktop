@@ -1,0 +1,170 @@
+.markora-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  background: var(--dialog-overlay, rgb(15 23 42 / 35%));
+  overscroll-behavior: contain;
+  animation: markora-dialog-fade-in 140ms ease-out;
+}
+
+.markora-dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(600px, calc(100vw - 32px));
+  max-height: min(90vh, 900px);
+  box-sizing: border-box;
+  overflow: auto;
+  color: var(--dialog-text-primary, #1f2937);
+  background: var(--dialog-bg, #fff);
+  border: 1px solid var(--dialog-border, #d1d5db);
+  border-radius: 10px;
+  box-shadow: var(--dialog-shadow, 0 24px 72px rgb(0 0 0 / 42%));
+  outline: none;
+  isolation: isolate;
+  animation: markora-dialog-rise 160ms ease-out;
+}
+
+.markora-dialog-small {
+  width: min(460px, calc(100vw - 32px));
+}
+.markora-dialog-medium {
+  width: min(600px, calc(100vw - 32px));
+}
+.markora-dialog-large {
+  width: min(860px, calc(100vw - 32px));
+}
+.markora-dialog-wide {
+  width: min(1120px, calc(100vw - 32px));
+}
+.markora-dialog-full {
+  width: min(1400px, calc(100vw - 32px));
+  height: min(92vh, 960px);
+}
+
+.markora-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px 16px;
+  color: var(--dialog-text-primary, #1f2937);
+  background: var(--dialog-bg, #fff);
+  border-bottom: 1px solid var(--dialog-border, #d1d5db);
+}
+
+.markora-dialog-header h2 {
+  margin: 0;
+  color: var(--dialog-text-primary, #1f2937);
+  font-size: 19px;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+
+.markora-dialog-header p {
+  margin: 6px 0 0;
+  color: var(--dialog-text-secondary, #4b5563);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.markora-dialog-close {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  color: var(--dialog-text-secondary, #4b5563);
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.markora-dialog-close:hover {
+  color: var(--dialog-text-primary, #1f2937);
+  background: var(--dialog-secondary-hover, rgb(0 0 0 / 6%));
+}
+
+.markora-dialog > :not(.markora-dialog-header) {
+  min-width: 0;
+}
+
+.markora-dialog :is(input, select, textarea) {
+  color: var(--dialog-input-text, #1f2937);
+  background: var(--dialog-input-bg, #fff);
+  border-color: var(--dialog-input-border, #d1d5db);
+}
+
+.markora-dialog :is(input, select, textarea)::placeholder {
+  color: var(--dialog-input-placeholder, #6b7280);
+  opacity: 1;
+}
+
+.markora-dialog :is(input, select, textarea):focus-visible {
+  border-color: var(--dialog-input-border-focus, #2563eb);
+  outline: 2px solid var(--dialog-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.markora-dialog :is(button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--dialog-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.markora-dialog button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+@keyframes markora-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes markora-dialog-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .markora-dialog-overlay {
+    padding: 16px;
+  }
+  .markora-dialog {
+    max-height: calc(100vh - 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markora-dialog-overlay,
+  .markora-dialog {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .markora-dialog-overlay {
+    background: Canvas;
+  }
+  .markora-dialog {
+    color: CanvasText;
+    background: Canvas;
+    border: 2px solid CanvasText;
+  }
+  .markora-dialog :is(input, select, textarea) {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+}

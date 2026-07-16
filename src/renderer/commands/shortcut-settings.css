@@ -1,0 +1,211 @@
+.shortcut-settings {
+  display: grid;
+  gap: 1rem;
+  color: var(--text, #18181b);
+}
+
+.shortcut-settings-header,
+.shortcut-settings-header-actions,
+.shortcut-settings-search-row,
+.shortcut-settings-actions,
+.shortcut-settings-dialog > div {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.shortcut-settings-header {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.shortcut-settings-header h2,
+.shortcut-settings-header p,
+.shortcut-settings-dialog h3,
+.shortcut-settings-dialog p {
+  margin: 0;
+}
+
+.shortcut-settings-header p,
+.shortcut-settings-command > span,
+.shortcut-settings-search-row > span {
+  color: var(--muted, #52525b);
+  font-size: 0.8rem;
+}
+
+.shortcut-settings-search-row {
+  display: grid;
+  grid-template-columns: auto minmax(10rem, 1fr) auto;
+}
+
+.shortcut-settings input,
+.shortcut-settings textarea,
+.shortcut-settings button {
+  color: inherit;
+  font: inherit;
+}
+
+.shortcut-settings input,
+.shortcut-settings textarea {
+  padding: 0.5rem 0.6rem;
+  background: var(--input, #fff);
+  border: 1px solid var(--border, #a1a1aa);
+  border-radius: 0.4rem;
+}
+
+.shortcut-settings button {
+  padding: 0.42rem 0.65rem;
+  background: var(--button, #f4f4f5);
+  border: 1px solid var(--border, #a1a1aa);
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.shortcut-settings button:hover:not(:disabled) {
+  background: var(--button-hover, #e4e4e7);
+}
+
+.shortcut-settings button:focus-visible,
+.shortcut-settings input:focus-visible,
+.shortcut-settings textarea:focus-visible {
+  outline: 3px solid var(--focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.shortcut-settings button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.shortcut-settings-import {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) auto;
+  gap: 0.4rem 0.6rem;
+}
+
+.shortcut-settings-import label {
+  grid-column: 1 / -1;
+}
+
+.shortcut-settings-list {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.shortcut-settings-item {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(7rem, auto) auto;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.65rem;
+  border: 1px solid var(--border, #d4d4d8);
+  border-radius: 0.45rem;
+}
+
+.shortcut-settings-command {
+  display: grid;
+  min-width: 0;
+}
+
+.shortcut-settings-command > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shortcut-settings-binding {
+  text-align: right;
+}
+
+.shortcut-settings kbd {
+  padding: 0.15rem 0.35rem;
+  font: 0.78rem/1.2 var(--code-font, Consolas, monospace);
+  background: rgb(127 127 127 / 12%);
+  border: 1px solid currentcolor;
+  border-radius: 0.25rem;
+}
+
+.shortcut-settings .is-recording {
+  color: #fff;
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.shortcut-settings-error {
+  padding: 0.6rem;
+  margin: 0;
+  color: var(--error-text, #991b1b);
+  background: var(--error-background, #fee2e2);
+  border: 1px solid currentcolor;
+  border-radius: 0.4rem;
+}
+
+.shortcut-settings-dialog {
+  width: min(32rem, calc(100vw - 2rem));
+  padding: 0.8rem;
+  background: var(--panel, #fff);
+  border: 2px solid var(--focus-ring, #2563eb);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 18%);
+}
+
+.shortcut-settings-dialog-backdrop {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(0 0 0 / 48%);
+}
+
+.shortcut-settings-dialog p {
+  margin-block: 0.4rem 0.7rem;
+}
+
+.shortcut-settings-empty {
+  color: var(--muted, #52525b);
+  text-align: center;
+}
+
+.shortcut-settings-live,
+.shortcut-settings-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 44rem) {
+  .shortcut-settings-header {
+    display: grid;
+  }
+
+  .shortcut-settings-header-actions {
+    flex-wrap: wrap;
+  }
+
+  .shortcut-settings-item {
+    grid-template-columns: 1fr;
+  }
+
+  .shortcut-settings-binding {
+    text-align: left;
+  }
+}
+
+@media (forced-colors: active) {
+  .shortcut-settings .is-recording,
+  .shortcut-settings-dialog,
+  .shortcut-settings-item {
+    border: 2px solid CanvasText;
+  }
+}
