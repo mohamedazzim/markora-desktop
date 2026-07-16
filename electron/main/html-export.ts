@@ -357,10 +357,24 @@ function isInside(root: string, candidate: string): boolean {
   // Windows realpath can return a different drive-letter or component case
   // than the user-selected source/workspace path. Compare normalized forms so
   // an authorized file is not misclassified as outside its own root.
-  const normalizedRoot = process.platform === 'win32' ? root.toLocaleLowerCase() : root;
-  const normalizedCandidate = process.platform === 'win32' ? candidate.toLocaleLowerCase() : candidate;
-  const relative = path.relative(normalizedRoot, normalizedCandidate);
+  const normalizedRoot = process.platform === 'win32' ? path.win32.normalize(root).toLocaleLowerCase() : root;
+  const normalizedCandidate =
+    process.platform === 'win32' ? path.win32.normalize(candidate).toLocaleLowerCase() : candidate;
+  const relative =
+    process.platform === 'win32'
+      ? path.win32.relative(normalizedRoot, normalizedCandidate)
+      : path.relative(normalizedRoot, normalizedCandidate);
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
+function relativePath(from: string, to: string): string {
+  if (process.platform === 'win32') {
+    // realpath may preserve the casing from the filesystem while the output
+    // path came from a user-facing dialog. Windows paths are case-insensitive,
+    // so normalize both sides before calculating the relative URI.
+    return path.win32.relative(path.win32.normalize(from).toLocaleLowerCase(), path.win32.normalize(to).toLocaleLowerCase());
+  }
+  return path.relative(from, to);
 }
 
 async function existingRealPath(candidate: string): Promise<string> {
@@ -478,7 +492,11 @@ async function prepareImageSources(
           ...roots.map(existingRealPath),
         ]);
         const approvedByRoot = realRoots.some((root) => isInside(root, realCandidate));
-        const explicitlyApproved = context.isLocalPathAllowed?.(realCandidate) ?? false;
+        const explicitlyApproved =
+          (context.isLocalPathAllowed?.(realCandidate) ?? false) ||
+          // Keep the callback ergonomic for callers that compare against the
+          // resolved source path rather than fs.realpath's canonical spelling.
+          (context.isLocalPathAllowed?.(localPath) ?? false);
         if (!approvedByRoot && !explicitlyApproved) {
           warnings.push({
             code: 'IMAGE_OUTSIDE_ALLOWED_ROOTS',
@@ -506,10 +524,10 @@ async function prepareImageSources(
               safeSource = `data:${mimeType};base64,${(await fs.readFile(realCandidate)).toString('base64')}`;
               embeddedImageCount += 1;
             } else if (context.outputPath) {
-              safeSource = encodeRelativePath(path.relative(path.dirname(context.outputPath), realCandidate));
+              safeSource = encodeRelativePath(relativePath(path.dirname(context.outputPath), realCandidate));
             } else {
               safeSource = encodeRelativePath(
-                path.relative(
+                relativePath(
                   context.sourcePath ? path.dirname(context.sourcePath) : context.workspaceRoot!,
                   realCandidate,
                 ),
