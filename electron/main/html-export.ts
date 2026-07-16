@@ -492,7 +492,9 @@ async function prepareImageSources(
           existingRealPath(localPath),
           ...roots.map(existingRealPath),
         ]);
-        const approvedByRoot = realRoots.some((root) => isInside(root, realCandidate));
+        const approvedByRoot = realRoots.some(
+          (root) => isInside(root, realCandidate) || isInside(root, localPath),
+        );
         const explicitlyApproved =
           (context.isLocalPathAllowed?.(realCandidate) ?? false) ||
           // Keep the callback ergonomic for callers that compare against the
@@ -525,7 +527,7 @@ async function prepareImageSources(
               safeSource = `data:${mimeType};base64,${(await fs.readFile(realCandidate)).toString('base64')}`;
               embeddedImageCount += 1;
             } else if (context.outputPath) {
-              safeSource = encodeRelativePath(relativePath(path.dirname(context.outputPath), realCandidate));
+              safeSource = encodeRelativePath(relativePath(path.dirname(context.outputPath), localPath));
             } else {
               safeSource = encodeRelativePath(
                 relativePath(
