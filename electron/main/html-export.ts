@@ -390,6 +390,24 @@ function dirnamePortable(value: string): string {
   return isWindowsStylePath(value) ? path.win32.dirname(value) : path.dirname(value);
 }
 
+function isRelativeImageWithinDocument(source: string): boolean {
+  const clean = source.split(/[?#]/, 1)[0].replace(/\\/g, '/');
+  if (!clean || clean.startsWith('/') || /^[a-z]:\//i.test(clean) || /^[a-z][a-z\d+.-]*:/i.test(clean)) {
+    return false;
+  }
+  let depth = 0;
+  for (const segment of clean.split('/')) {
+    if (!segment || segment === '.') continue;
+    if (segment === '..') {
+      depth -= 1;
+      if (depth < 0) return false;
+    } else {
+      depth += 1;
+    }
+  }
+  return true;
+}
+
 async function existingRealPath(candidate: string): Promise<string> {
   try {
     return await fs.realpath(candidate);
@@ -505,9 +523,9 @@ async function prepareImageSources(
           existingRealPath(localPath),
           ...roots.map(existingRealPath),
         ]);
-        const approvedByRoot = realRoots.some(
-          (root) => isInside(root, realCandidate) || isInside(root, localPath),
-        );
+        const approvedByRoot =
+          realRoots.some((root) => isInside(root, realCandidate) || isInside(root, localPath)) ||
+          Boolean(context.sourcePath && isRelativeImageWithinDocument(originalSource));
         const explicitlyApproved =
           (context.isLocalPathAllowed?.(realCandidate) ?? false) ||
           // Keep the callback ergonomic for callers that compare against the
